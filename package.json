@@ -1,0 +1,26 @@
+{
+  "name": "kc-mc-package",
+  "version": "1.0.0",
+  "description": "管理部署工具打包webpack插件",
+  "main": "index.js",
+  "bin": {
+    "kc-mc-package": "plugin.js"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/web-labor/kc-mc-package.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/web-labor/kc-mc-package/issues"
+  },
+  "homepage": "https://github.com/web-labor/kc-mc-package#readme"
+}
