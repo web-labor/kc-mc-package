@@ -1,6 +1,6 @@
 {
   "name": "kc-mc-package",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "管理部署工具打包webpack插件",
   "main": "index.js",
   "directories": {

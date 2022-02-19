@@ -10,9 +10,10 @@ class KcMcPackage {
         const { projectName } = this.opt
         compiler.plugin('afterEmit', async (comilation, cb) => {
             console.log(
-                '\n============================压缩文件=========================='
+                '\n============================打包开始=========================='
             )
-            const pre = path.resolve(__dirname) + '/'
+            // 从node-module开始找到根路径
+            const pre = path.resolve(__dirname, '../../') + '/'
             const zipFile = new yazl.ZipFile()
             const zipFile2 = new yazl.ZipFile()
 
@@ -25,14 +26,14 @@ class KcMcPackage {
                 zipFile.outputStream.pipe(
                     fs.createWriteStream(`${pre}dist.zip`).on('close', () => {
                         const buffer = fs.readFileSync(
-                            path.join(__dirname, `dist.zip`)
+                            `${pre}dist.zip`
                         )
                         const hash = crypto.createHash('md5')
                         hash.update(buffer, 'utf8')
                         const md5 = hash.digest('hex')
                         const str = `${md5} ${projectName}.zip`
                         fs.writeFile(
-                            `${pre}/${projectName}.txt`,
+                            `${pre}${projectName}.txt`,
                             str,
                             function (err) {
                                 if (err) {
@@ -49,17 +50,17 @@ class KcMcPackage {
             await new Promise((resolve) => {
                 zipFile2.addFile(`${pre}dist.zip`, `${projectName}.zip`)
                 zipFile2.addFile(
-                    `${path.resolve(__dirname, `${projectName}.txt`)}`,
+                    `${pre}${projectName}.txt`,
                     `${projectName}.txt`
                 )
                 zipFile2.end()
                 zipFile2.outputStream.pipe(
                     fs
                         .createWriteStream(
-                            `${path.resolve(__dirname, `${projectName}.zip`)}`
+                            `${pre}${projectName}.zip`
                         )
                         .on('close', () => {
-                            console.log('打包完成')
+                            console.log('打包完成！')
                             resolve()
                         })
                 )
