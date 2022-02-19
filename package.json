@@ -3,24 +3,31 @@
   "version": "1.0.0",
   "description": "管理部署工具打包webpack插件",
   "main": "index.js",
-  "bin": {
-    "kc-mc-package": "plugin.js"
-  },
   "directories": {
     "lib": "lib"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/web-labor/kc-mc-package.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Mikeccx",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/web-labor/kc-mc-package/issues"
   },
-  "homepage": "https://github.com/web-labor/kc-mc-package#readme"
+  "homepage": "https://github.com/web-labor/kc-mc-package#readme",
+  "dependencies": {
+    "@babel/core": "^7.17.5",
+    "babel-loader": "^8.2.3",
+    "clean-webpack-plugin": "^4.0.0",
+    "crypto": "^1.0.1",
+    "webpack": "4",
+    "webpack-cli": "^4.9.2",
+    "yazl": "^2.5.1"
+  }
 }
