@@ -12,6 +12,7 @@ class KcMcPackage {
             console.log(
                 '\n============================压缩文件=========================='
             )
+            const pre = path.resolve(__dirname) + '/'
             const zipFile = new yazl.ZipFile()
             const zipFile2 = new yazl.ZipFile()
 
@@ -22,7 +23,7 @@ class KcMcPackage {
             zipFile.end()
             await new Promise((resolve) => {
                 zipFile.outputStream.pipe(
-                    fs.createWriteStream(path.resolve(__dirname,'dist.zip')).on('close', () => {
+                    fs.createWriteStream(`${pre}dist.zip`).on('close', () => {
                         const buffer = fs.readFileSync(
                             path.join(__dirname, `dist.zip`)
                         )
@@ -31,7 +32,7 @@ class KcMcPackage {
                         const md5 = hash.digest('hex')
                         const str = `${md5} ${projectName}.zip`
                         fs.writeFile(
-                            path.resolve(__dirname,`${projectName}.txt`),
+                            `${pre}/${projectName}.txt`,
                             str,
                             function (err) {
                                 if (err) {
@@ -46,12 +47,17 @@ class KcMcPackage {
                 )
             })
             await new Promise((resolve) => {
-                zipFile2.addFile(`${path.resolve(__dirname, 'dist.zip')}`, `${projectName}.zip`)
-                zipFile2.addFile(`${path.resolve(__dirname, `${projectName}.txt`)}`, `${projectName}.txt`)
+                zipFile2.addFile(`${pre}dist.zip`, `${projectName}.zip`)
+                zipFile2.addFile(
+                    `${path.resolve(__dirname, `${projectName}.txt`)}`,
+                    `${projectName}.txt`
+                )
                 zipFile2.end()
                 zipFile2.outputStream.pipe(
                     fs
-                        .createWriteStream(`${path.resolve(__dirname, `${projectName}.zip`)}`)
+                        .createWriteStream(
+                            `${path.resolve(__dirname, `${projectName}.zip`)}`
+                        )
                         .on('close', () => {
                             console.log('打包完成')
                             resolve()
@@ -59,10 +65,10 @@ class KcMcPackage {
                 )
             })
 
-            fs.unlink(`${path.resolve(__dirname, `${projectName}.txt`)}`, () => {})
-            fs.unlink(`${path.resolve(__dirname, `${projectName}.zip`)}`, () => {})
+            fs.unlink(`${pre}${projectName}.txt`, () => {})
+            fs.unlink(`${pre}dist.zip`, () => {})
         })
     }
 }
 
-module.exports = KcMcPackage;
+module.exports = KcMcPackage
