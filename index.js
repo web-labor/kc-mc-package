@@ -22,7 +22,7 @@ class KcMcPackage {
             zipFile.end()
             await new Promise((resolve) => {
                 zipFile.outputStream.pipe(
-                    fs.createWriteStream(`dist.zip`).on('close', () => {
+                    fs.createWriteStream(path.resolve(__dirname,'dist.zip')).on('close', () => {
                         const buffer = fs.readFileSync(
                             path.join(__dirname, `dist.zip`)
                         )
@@ -31,7 +31,7 @@ class KcMcPackage {
                         const md5 = hash.digest('hex')
                         const str = `${md5} ${projectName}.zip`
                         fs.writeFile(
-                            `./${projectName}.txt`,
+                            path.resolve(__dirname,`${projectName}.txt`),
                             str,
                             function (err) {
                                 if (err) {
@@ -46,12 +46,12 @@ class KcMcPackage {
                 )
             })
             await new Promise((resolve) => {
-                zipFile2.addFile(`dist.zip`, `${projectName}.zip`)
-                zipFile2.addFile(`${projectName}.txt`, `${projectName}.txt`)
+                zipFile2.addFile(`${path.resolve(__dirname, 'dist.zip')}`, `${projectName}.zip`)
+                zipFile2.addFile(`${path.resolve(__dirname, `${projectName}.txt`)}`, `${projectName}.txt`)
                 zipFile2.end()
                 zipFile2.outputStream.pipe(
                     fs
-                        .createWriteStream(`${projectName}.zip`)
+                        .createWriteStream(`${path.resolve(__dirname, `${projectName}.zip`)}`)
                         .on('close', () => {
                             console.log('打包完成')
                             resolve()
@@ -59,8 +59,8 @@ class KcMcPackage {
                 )
             })
 
-            fs.unlink(`./${projectName}.txt`, () => {})
-            fs.unlink(`./dist.zip`, () => {})
+            fs.unlink(`${path.resolve(__dirname, `${projectName}.txt`)}`, () => {})
+            fs.unlink(`${path.resolve(__dirname, `${projectName}.zip`)}`, () => {})
         })
     }
 }
